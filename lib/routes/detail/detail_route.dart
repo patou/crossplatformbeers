@@ -3,8 +3,8 @@ import 'package:crossplatformbeers/models/favorites.dart';
 import 'package:crossplatformbeers/widgets/favorite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:provider/provider.dart';
 
 class DetailRoute extends StatelessWidget {
   static const routeName = '/detail';
@@ -19,6 +19,7 @@ class DetailRoute extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.backgroundColor,
       appBar: AppBar(
+        backgroundColor: theme.primaryColor,
         centerTitle: true,
         leading: Builder(
           builder: (BuildContext context) {
@@ -39,7 +40,10 @@ class DetailRoute extends StatelessWidget {
           child: SingleChildScrollView(
             child: LayoutBuilder(builder: (context, contrains) {
               return Column(
-                children: [buildMainPanel(contrains, theme, context), buildDetailList(context, contrains, theme, beer)],
+                children: [
+                  buildMainPanel(contrains, theme, context),
+                  buildDetailList(context, contrains, theme, beer)
+                ],
               );
             }),
           ),
@@ -50,33 +54,36 @@ class DetailRoute extends StatelessWidget {
 
   Widget buildFavorite(BuildContext context) {
     return Shortcuts(
-      shortcuts: {
-        LogicalKeySet(LogicalKeyboardKey.keyF): const FavoriteIntent(),
-      },
-      child: Actions(
-          actions: <Type, Action<Intent>>{
-            FavoriteIntent: CallbackAction<FavoriteIntent>(
-              onInvoke: (FavoriteIntent intent) async {
-                final favoritesModel = Provider.of<FavoritesModel>(context, listen: false);
-                bool isInFavorite = favoritesModel.isInFavorites(beer.id.toString());
-                if (isInFavorite) {
-                  favoritesModel.onRemoveToFavorite(beer.id.toString());
-                } else {
-                  favoritesModel.onAddToFavorite(beer.id.toString());
-                }
-              },
-            ),
-          },
-          child: Focus(
-              autofocus: true,
-              child: Favorite(id: beer.id.toString()))));
+        shortcuts: {
+          LogicalKeySet(LogicalKeyboardKey.keyF): const FavoriteIntent(),
+        },
+        child: Actions(
+            actions: <Type, Action<Intent>>{
+              FavoriteIntent: CallbackAction<FavoriteIntent>(
+                onInvoke: (FavoriteIntent intent) async {
+                  final favoritesModel =
+                      Provider.of<FavoritesModel>(context, listen: false);
+                  bool isInFavorite =
+                      favoritesModel.isInFavorites(beer.id.toString());
+                  if (isInFavorite) {
+                    favoritesModel.onRemoveToFavorite(beer.id.toString());
+                  } else {
+                    favoritesModel.onAddToFavorite(beer.id.toString());
+                  }
+                },
+              ),
+            },
+            child: Focus(
+                autofocus: true, child: Favorite(id: beer.id.toString()))));
   }
 
-  Widget buildMainPanel(BoxConstraints contrains, ThemeData theme, BuildContext context) {
+  Widget buildMainPanel(
+      BoxConstraints contrains, ThemeData theme, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: theme.primaryColorLight,
-        borderRadius: BorderRadiusDirectional.vertical(bottom: Radius.circular(12)),
+        borderRadius:
+            BorderRadiusDirectional.vertical(bottom: Radius.circular(12)),
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: theme.shadowColor.withOpacity(0.4),
@@ -97,7 +104,9 @@ class DetailRoute extends StatelessWidget {
                 maxScale: 4,
                 child: InkWell(
                   onTap: () async {
-                    await showDialog(context: context, builder: (context) => ImageDialog(beer.imageURL));
+                    await showDialog(
+                        context: context,
+                        builder: (context) => ImageDialog(beer.imageURL));
                   },
                   child: AspectRatio(
                     aspectRatio: 16 / 9,
@@ -141,12 +150,14 @@ class DetailRoute extends StatelessWidget {
                             Text(
                               "ABV",
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline5,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline5,
                             ),
                             Text(
                               beer.abv,
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline6,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline6,
                             ),
                           ],
                         ),
@@ -159,12 +170,14 @@ class DetailRoute extends StatelessWidget {
                             Text(
                               "IBU",
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline5,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline5,
                             ),
                             Text(
                               beer.ibu,
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline6,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline6,
                             ),
                           ],
                         ),
@@ -177,12 +190,14 @@ class DetailRoute extends StatelessWidget {
                             Text(
                               "OG",
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline5,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline5,
                             ),
                             Text(
                               beer.targetOg,
                               maxLines: 1,
-                              style: Theme.of(context).primaryTextTheme.headline6,
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline6,
                               softWrap: false,
                             ),
                           ],
@@ -199,9 +214,13 @@ class DetailRoute extends StatelessWidget {
     );
   }
 
-  Widget buildDetailList(BuildContext context, BoxConstraints contrains, ThemeData theme, Beer beer) {
+  Widget buildDetailList(BuildContext context, BoxConstraints contrains,
+      ThemeData theme, Beer beer) {
     int even = 0;
-    final foodColumn = Column(children: beer.foodPairing.map((food) => buildSimpleText(context, food, even++ % 2 == 0)).toList(growable: false));
+    final foodColumn = Column(
+        children: beer.foodPairing
+            .map((food) => buildSimpleText(context, food, even++ % 2 == 0))
+            .toList(growable: false));
 
     bool isLarge = contrains.maxWidth > 650;
 
@@ -228,7 +247,9 @@ class DetailRoute extends StatelessWidget {
                   direction: isLarge ? Axis.horizontal : Axis.vertical,
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: isLarge ? CrossAxisAlignment.start : CrossAxisAlignment.stretch,
+                  crossAxisAlignment: isLarge
+                      ? CrossAxisAlignment.start
+                      : CrossAxisAlignment.stretch,
                   children: [
                     Container(
                       width: 300,
@@ -236,14 +257,17 @@ class DetailRoute extends StatelessWidget {
                         children: [
                           buildHeader(context, "Basics"),
                           buildValue(context, "VOLUME", beer.volume, true),
-                          buildValue(context, "BOIL VOLUME", beer.boilVolume, false),
+                          buildValue(
+                              context, "BOIL VOLUME", beer.boilVolume, false),
                           buildValue(context, "ABV", beer.abv, true),
-                          buildValue(context, "Target FG", beer.targetFg, false),
+                          buildValue(
+                              context, "Target FG", beer.targetFg, false),
                           buildValue(context, "Target OG", beer.targetOg, true),
                           buildValue(context, "EBC", beer.ebc, false),
                           buildValue(context, "SRM", beer.srm, true),
                           buildValue(context, "PH", beer.ph, false),
-                          buildValue(context, "ATTENUATION LEVEL", beer.attenuationLevel, true),
+                          buildValue(context, "ATTENUATION LEVEL",
+                              beer.attenuationLevel, true),
                         ],
                       ),
                     ),
@@ -286,7 +310,9 @@ class DetailRoute extends StatelessWidget {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: even ? Theme.of(context).primaryColorLight : Theme.of(context).backgroundColor,
+        color: even
+            ? Theme.of(context).primaryColorLight
+            : Theme.of(context).backgroundColor,
       ),
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       child: Text(
@@ -296,11 +322,14 @@ class DetailRoute extends StatelessWidget {
     );
   }
 
-  Widget buildValue(BuildContext context, String title, String message, bool even) {
+  Widget buildValue(
+      BuildContext context, String title, String message, bool even) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       decoration: BoxDecoration(
-        color: even ? Theme.of(context).primaryColorLight : Theme.of(context).backgroundColor,
+        color: even
+            ? Theme.of(context).primaryColorLight
+            : Theme.of(context).backgroundColor,
       ),
       child: Row(
         children: <Widget>[
@@ -335,9 +364,7 @@ class ImageDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       child: InteractiveViewer(
-          minScale: 0.1,
-          maxScale: 4,
-          child: Image.network(imageURL)),
+          minScale: 0.1, maxScale: 4, child: Image.network(imageURL)),
     );
   }
 }
