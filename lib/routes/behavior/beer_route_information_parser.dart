@@ -6,7 +6,7 @@ class BeerRouteInformationParser extends RouteInformationParser<BeerRoutePath> {
   @override
   Future<BeerRoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
-    final uri = Uri.parse(routeInformation.location);
+    final uri = Uri.parse(routeInformation.location ?? '/');
 
     // Handle '/'
     if (uri.pathSegments.length == 0) {

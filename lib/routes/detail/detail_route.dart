@@ -10,14 +10,14 @@ class DetailRoute extends StatelessWidget {
   static const routeName = '/detail';
   final Beer beer;
 
-  DetailRoute({@required this.beer}) : assert(beer != null);
+  DetailRoute({required this.beer});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: theme.colorScheme.background,
       appBar: AppBar(
         backgroundColor: theme.primaryColor,
         centerTitle: true,
@@ -70,6 +70,7 @@ class DetailRoute extends StatelessWidget {
                   } else {
                     favoritesModel.onAddToFavorite(beer.id.toString());
                   }
+                  return null;
                 },
               ),
             },
@@ -129,8 +130,8 @@ class DetailRoute extends StatelessWidget {
                     horizontal: 20,
                   ),
                   child: Text(
-                    beer.tagline,
-                    style: theme.textTheme.headline5,
+                    beer.tagline ?? '',
+                    style: theme.textTheme.headlineSmall,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -150,14 +151,15 @@ class DetailRoute extends StatelessWidget {
                             Text(
                               "ABV",
                               maxLines: 1,
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline5,
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .headlineSmall,
                             ),
                             Text(
-                              beer.abv,
+                              beer.abv ?? '',
                               maxLines: 1,
                               style:
-                                  Theme.of(context).primaryTextTheme.headline6,
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                           ],
                         ),
@@ -170,14 +172,15 @@ class DetailRoute extends StatelessWidget {
                             Text(
                               "IBU",
                               maxLines: 1,
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline5,
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .headlineSmall,
                             ),
                             Text(
-                              beer.ibu,
+                              beer.ibu ?? '',
                               maxLines: 1,
                               style:
-                                  Theme.of(context).primaryTextTheme.headline6,
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                             ),
                           ],
                         ),
@@ -190,14 +193,15 @@ class DetailRoute extends StatelessWidget {
                             Text(
                               "OG",
                               maxLines: 1,
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline5,
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .headlineSmall,
                             ),
                             Text(
-                              beer.targetOg,
+                              beer.targetOg ?? '',
                               maxLines: 1,
                               style:
-                                  Theme.of(context).primaryTextTheme.headline6,
+                                  Theme.of(context).primaryTextTheme.titleLarge,
                               softWrap: false,
                             ),
                           ],
@@ -219,8 +223,9 @@ class DetailRoute extends StatelessWidget {
     int even = 0;
     final foodColumn = Column(
         children: beer.foodPairing
-            .map((food) => buildSimpleText(context, food, even++ % 2 == 0))
-            .toList(growable: false));
+                ?.map((food) => buildSimpleText(context, food, even++ % 2 == 0))
+                .toList(growable: false) ??
+            []);
 
     bool isLarge = contrains.maxWidth > 650;
 
@@ -242,7 +247,7 @@ class DetailRoute extends StatelessWidget {
             children: <Widget>[
               // Basics
               buildHeader(context, "Description"),
-              buildSimpleText(context, beer.description, false),
+              buildSimpleText(context, beer.description ?? '', false),
               Flex(
                   direction: isLarge ? Axis.horizontal : Axis.vertical,
                   mainAxisSize: MainAxisSize.max,
@@ -301,35 +306,35 @@ class DetailRoute extends StatelessWidget {
       padding: EdgeInsets.only(top: 16, bottom: 8),
       child: Text(
         title,
-        style: Theme.of(context).primaryTextTheme.headline5,
+        style: Theme.of(context).primaryTextTheme.headlineSmall,
       ),
     );
   }
 
-  Widget buildSimpleText(BuildContext context, String message, bool even) {
+  Widget buildSimpleText(BuildContext context, String? message, bool even) {
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
         color: even
             ? Theme.of(context).primaryColorLight
-            : Theme.of(context).backgroundColor,
+            : Theme.of(context).colorScheme.background,
       ),
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       child: Text(
-        message,
-        style: Theme.of(context).primaryTextTheme.bodyText2,
+        message ?? '',
+        style: Theme.of(context).primaryTextTheme.bodyMedium,
       ),
     );
   }
 
   Widget buildValue(
-      BuildContext context, String title, String message, bool even) {
+      BuildContext context, String title, String? message, bool even) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       decoration: BoxDecoration(
         color: even
             ? Theme.of(context).primaryColorLight
-            : Theme.of(context).backgroundColor,
+            : Theme.of(context).colorScheme.background,
       ),
       child: Row(
         children: <Widget>[
@@ -337,15 +342,15 @@ class DetailRoute extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               title,
-              style: Theme.of(context).primaryTextTheme.subtitle1,
+              style: Theme.of(context).primaryTextTheme.titleMedium,
             ),
           ),
           Flexible(
             child: Container(
               alignment: Alignment.centerRight,
               child: Text(
-                message,
-                style: Theme.of(context).primaryTextTheme.bodyText2,
+                message ?? '',
+                style: Theme.of(context).primaryTextTheme.bodyMedium,
               ),
             ),
           ),
@@ -356,7 +361,7 @@ class DetailRoute extends StatelessWidget {
 }
 
 class ImageDialog extends StatelessWidget {
-  String imageURL;
+  final String imageURL;
 
   ImageDialog(this.imageURL);
 

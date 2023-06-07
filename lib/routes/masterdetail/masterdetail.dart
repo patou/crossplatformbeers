@@ -12,15 +12,14 @@ class MasterDetail extends StatefulWidget {
 
   final BeersRepository beersRepository;
 
-  MasterDetail({@required this.beersRepository})
-      : assert(beersRepository != null);
+  MasterDetail({required this.beersRepository});
 
   @override
   _MasterDetailState createState() => _MasterDetailState();
 }
 
 class _MasterDetailState extends State<MasterDetail> {
-  Beer selectedBeer;
+  Beer? selectedBeer;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class _MasterDetailState extends State<MasterDetail> {
             });
           },
         ),
-        this.selectedBeer != null ? DetailRoute(beer: selectedBeer) : Home(),
+        this.selectedBeer != null ? DetailRoute(beer: selectedBeer!) : Home(),
       ],
       /*indicator: SplitIndicator(viewMode: SplitViewMode.Vertical),
       activeIndicator: SplitIndicator(

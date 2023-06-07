@@ -19,7 +19,7 @@ class FavoritesModel extends ChangeNotifier {
   }
 
   void initFavorites() async {
-    Iterable<String> favorites = await getFavorites();
+    List<String> favorites = await getFavorites();
     addAll(favorites);
   }
 
@@ -40,7 +40,7 @@ class FavoritesModel extends ChangeNotifier {
 
   Future<List<String>> getFavorites() async {
     final SharedPreferences prefs = await _prefs;
-    List<String> favorites = prefs.getStringList('favorites');
+    List<String>? favorites = prefs.getStringList('favorites');
     return favorites != null && favorites.isNotEmpty ? favorites : [];
   }
 

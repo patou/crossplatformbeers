@@ -1,33 +1,33 @@
-import 'package:meta/meta.dart';
 import 'package:intl/intl.dart';
+import 'package:meta/meta.dart';
 
 @immutable
 class Beer {
   final int id;
   final String name;
-  final String tagline;
-  final String description;
+  final String? tagline;
+  final String? description;
   final String imageURL;
-  final String firstBrewed;
-  final String abv;
-  final String ibu;
-  final String targetOg;
-  final String targetFg;
-  final String ebc;
-  final String srm;
-  final String volume;
-  final String boilVolume;
-  final String ph;
-  final String attenuationLevel;
-  final List<String> foodPairing;
-  final String brewersTips;
+  final String? firstBrewed;
+  final String? abv;
+  final String? ibu;
+  final String? targetOg;
+  final String? targetFg;
+  final String? ebc;
+  final String? srm;
+  final String? volume;
+  final String? boilVolume;
+  final String? ph;
+  final String? attenuationLevel;
+  final List<String>? foodPairing;
+  final String? brewersTips;
 
   Beer(
-      {@required this.id,
-      @required this.name,
+      {required this.id,
+      required this.name,
       this.tagline,
       this.description,
-      this.imageURL,
+      required this.imageURL,
       this.firstBrewed,
       this.abv,
       this.ibu,
@@ -40,10 +40,7 @@ class Beer {
       this.ph,
       this.attenuationLevel,
       this.foodPairing,
-      this.brewersTips})
-      : assert(id != null),
-        assert(name != null),
-        assert(imageURL != null);
+      this.brewersTips});
 
   factory Beer.fromJson(Map<String, dynamic> json) {
     return Beer(
@@ -53,22 +50,28 @@ class Beer {
       description: json['description'] as String,
       imageURL: toImageUrlOrDefault(json['image_url']),
       firstBrewed: toDateOrDefault(json['first_brewed']),
-      abv: "${toStringOrDefault(json['abv'] as num)}%",
-      ibu: toStringOrDefault(json['ibu'] as num),
-      targetOg: toStringOrDefault(json['target_og'] as num),
-      targetFg: toStringOrDefault(json['target_fg'] as num),
-      ebc: toStringOrDefault(json['ebc'] as num),
-      srm: toStringOrDefault(json['srm'] as num),
+      abv: "${toStringOrDefault(json['abv'] as num?)}%",
+      ibu: toStringOrDefault(json['ibu'] as num?),
+      targetOg: toStringOrDefault(json['target_og'] as num?),
+      targetFg: toStringOrDefault(json['target_fg'] as num?),
+      ebc: toStringOrDefault(json['ebc'] as num?),
+      srm: toStringOrDefault(json['srm'] as num?),
       volume: volumeToString(json['volume']),
       boilVolume: volumeToString(json['boil_volume']),
-      ph: toStringOrDefault(json['ph'] as num),
-      attenuationLevel: toStringOrDefault(json['attenuation_level'] as num),
-      foodPairing: (json['food_pairing'] as List)?.map((e) => e as String)?.toList(),
+      ph: toStringOrDefault(json['ph'] as num?),
+      attenuationLevel: toStringOrDefault(json['attenuation_level'] as num?),
+      foodPairing:
+          (json['food_pairing'] as List).map((e) => e as String).toList(),
       brewersTips: json['brewers_tips'],
     );
   }
 
-  Beer copyWith({int id, String name, String tagline, String description, String imageURL}) {
+  Beer copyWith(
+      {int? id,
+      String? name,
+      String? tagline,
+      String? description,
+      String? imageURL}) {
     return Beer(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -78,7 +81,8 @@ class Beer {
     );
   }
 }
-String toDateOrDefault(String date) {
+
+String toDateOrDefault(String? date) {
   if (date != null) {
     DateFormat dateFormat;
     String formatStr;
@@ -94,20 +98,19 @@ String toDateOrDefault(String date) {
   return "-";
 }
 
-String toImageUrlOrDefault(String imageUrl) {
+String toImageUrlOrDefault(String? imageUrl) {
   return imageUrl ?? "https://images.punkapi.com/v2/keg.png";
 }
 
-String toStringOrDefault(num value) {
+String toStringOrDefault(num? value) {
   if (value != null) {
     return value.toString();
   }
   return "-";
 }
 
-String volumeToString(Map<String, dynamic> json) {
-  if (json == null)
-    return '-';
+String volumeToString(Map<String, dynamic>? json) {
+  if (json == null) return '-';
   return toStringOrDefault(json["value"]) + convertVolumeName(json["unit"]);
 }
 
@@ -125,6 +128,7 @@ String convertVolumeName(String unit) {
       return unit;
   }
 }
+
 typedef SelectedBeer = void Function(Beer beer);
 typedef AddBeerToFavorite = void Function(String beerId);
 typedef RemoveBeerToFavorite = void Function(String beerId);

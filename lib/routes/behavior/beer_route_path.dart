@@ -1,5 +1,5 @@
 class BeerRoutePath {
-  final int id;
+  final int? id;
   final bool isUnknown;
 
   BeerRoutePath.home()

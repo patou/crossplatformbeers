@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatelessWidget {
-  var repository = BeersRepository(
+  final repository = BeersRepository(
     client: http.Client(),
   );
   @override

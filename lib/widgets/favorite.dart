@@ -5,9 +5,7 @@ import 'package:provider/provider.dart';
 class Favorite extends StatelessWidget {
   final String id;
 
-  const Favorite({Key key, @required this.id})
-      : assert(id != null),
-        super(key: key);
+  const Favorite({Key? key, required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

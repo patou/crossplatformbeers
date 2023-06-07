@@ -5,21 +5,21 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'beer_route_path.dart';
 import '../detail/detail_route.dart';
 import '../master/master_route.dart';
 import '../unknown/unknown_route.dart';
+import 'beer_route_path.dart';
 import 'beer_router_animation.dart';
 
 class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<BeerRoutePath> {
   final GlobalKey<NavigatorState> navigatorKey;
 
-  TransitionDelegate transitionDelegate = kIsWeb
+  TransitionDelegate<dynamic> transitionDelegate = (kIsWeb
       ? NoAnimationTransitionDelegate()
-      : DefaultTransitionDelegate<dynamic>();
+      : DefaultTransitionDelegate<dynamic>()) as TransitionDelegate;
 
-  Beer _selectedBeer;
+  Beer? _selectedBeer;
   bool show404 = false;
 
   BeerRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
@@ -30,7 +30,7 @@ class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
     }
     return _selectedBeer == null
         ? BeerRoutePath.home()
-        : BeerRoutePath.details(_selectedBeer.id);
+        : BeerRoutePath.details(_selectedBeer!.id);
   }
 
   void _handleBeerTapped(Beer beer) {
@@ -78,7 +78,7 @@ class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
         else if (_selectedBeer != null)
           MaterialPage(
               key: ValueKey(DetailRoute.routeName),
-              child: DetailRoute(beer: _selectedBeer))
+              child: DetailRoute(beer: _selectedBeer!))
       ],
       onPopPage: (route, result) {
         if (!route.didPop(result)) {
@@ -104,7 +104,7 @@ class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
     }
     if (path.isDetailsPage) {
       // Trivial check, i know....
-      if (path.id < 0 || path.id > 80) {
+      if (path.id! < 0 || path.id! > 80) {
         show404 = true;
         return;
       }

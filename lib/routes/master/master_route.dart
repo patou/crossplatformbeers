@@ -3,7 +3,6 @@ import 'package:crossplatformbeers/repositories/beer_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'widgets/punkapi_card.dart';
 
@@ -11,13 +10,9 @@ class MasterRoute extends StatelessWidget {
   static const routeName = '/list';
 
   final BeersRepository beersRepository;
-  final Function onTapped;
+  final void Function(Beer)? onTapped;
 
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
-  MasterRoute({@required this.beersRepository, @required this.onTapped})
-      : assert(beersRepository != null),
-        assert(onTapped != null);
+  MasterRoute({required this.beersRepository, this.onTapped});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +25,7 @@ class MasterRoute extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: theme.colorScheme.background,
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +60,7 @@ class MasterRoute extends StatelessWidget {
             );
           }
 
-          List<Beer> beers = snapshot.data;
+          List<Beer> beers = snapshot.data as List<Beer>;
           if (kIsWeb) {
             return GridView.builder(
               itemCount: beers.length,

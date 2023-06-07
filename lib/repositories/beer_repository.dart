@@ -12,7 +12,7 @@ const kBeerResource = 'beers';
 class BeersRepository {
   final http.Client client;
 
-  BeersRepository({@required this.client}) : assert(client != null);
+  BeersRepository({required this.client});
 
   Future<List<Beer>> getBeers({
     int pageNumber = 1,
@@ -31,11 +31,10 @@ class BeersRepository {
     try {
       // something
       return parsed.map<Beer>((json) => Beer.fromJson(json)).toList();
-    } catch(e, stacktrace) {
+    } catch (e, stacktrace) {
       print(e);
       print(stacktrace);
       throw e;
     }
-
   }
 }
