@@ -53,10 +53,12 @@ class PunkApiCard extends StatelessWidget {
                   children: [
                     Text(
                       beer.name,
+                      overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleLarge,
                     ),
                     Text(
                       beer.tagline ?? '',
+                      overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleMedium,
                     ),
                   ],

@@ -28,8 +28,8 @@ class MasterDetailState extends State<MasterDetail> {
       controller: SplitViewController(
         weights: [0.3, 0.7],
         limits: [
-          WeightLimit(min: 0.2, max: 0.4),
-          WeightLimit(min: 0.6, max: 0.8)
+          WeightLimit(min: 0.3, max: 0.5),
+          WeightLimit(min: 0.5, max: 0.7)
         ],
       ),
       viewMode: SplitViewMode.Horizontal,
