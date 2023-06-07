@@ -8,6 +8,8 @@ class HomePage extends StatelessWidget {
   final repository = BeersRepository(
     client: http.Client(),
   );
+
+  HomePage({super.key});
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

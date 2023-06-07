@@ -12,7 +12,7 @@ class MasterRoute extends StatelessWidget {
   final BeersRepository beersRepository;
   final void Function(Beer)? onTapped;
 
-  MasterRoute({required this.beersRepository, this.onTapped});
+  const MasterRoute({super.key, required this.beersRepository, this.onTapped});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class MasterRoute extends StatelessWidget {
             image,
             const Text(
               'Punk API',
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: 'Nerko_One',
                 fontSize: 40,
               ),
@@ -48,14 +48,16 @@ class MasterRoute extends StatelessWidget {
         future: beersRepository.getBeers(itemsPerPage: 80),
         builder: (_, snapshot) {
           if (snapshot.hasError) {
-            print(snapshot.error);
-            return Center(
+            if (kDebugMode) {
+              print(snapshot.error);
+            }
+            return const Center(
               child: Text('An error occurred'),
             );
           }
 
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -64,13 +66,13 @@ class MasterRoute extends StatelessWidget {
           if (kIsWeb) {
             return GridView.builder(
               itemCount: beers.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 5,
                 childAspectRatio: 2,
               ),
               itemBuilder: (_, index) {
                 return Container(
-                  margin: EdgeInsets.all(10),
+                  margin: const EdgeInsets.all(10),
                   child:
                       PunkApiCard(beer: beers[index], onBeerSelected: onTapped),
                 );
@@ -89,7 +91,7 @@ class MasterRoute extends StatelessWidget {
                     verticalOffset: 50.0,
                     child: FadeInAnimation(
                       child: Container(
-                        margin: EdgeInsets.only(bottom: 10),
+                        margin: const EdgeInsets.only(bottom: 10),
                         child: PunkApiCard(
                             beer: beers[index], onBeerSelected: onTapped),
                       ),

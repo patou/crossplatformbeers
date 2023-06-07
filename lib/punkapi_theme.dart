@@ -17,7 +17,7 @@ final darkTextStyle = kRobotoTextStyle.copyWith(
 final lightTheme = ThemeData(
   primaryColor: kLightPrimaryColor,
   shadowColor: kLightPrimaryColor,
-  colorScheme: ColorScheme.light(
+  colorScheme: const ColorScheme.light(
     primary: kLightPrimaryColor,
     secondary: Colors.white,
   ),
@@ -42,7 +42,7 @@ final lightTheme = ThemeData(
 
 final darkTheme = ThemeData(
   shadowColor: Colors.white,
-  colorScheme: ColorScheme.dark(
+  colorScheme: const ColorScheme.dark(
     primary: Colors.black,
     secondary: Colors.white,
     background: Colors.black87,

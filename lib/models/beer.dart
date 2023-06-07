@@ -22,7 +22,7 @@ class Beer {
   final List<String>? foodPairing;
   final String? brewersTips;
 
-  Beer(
+  const Beer(
       {required this.id,
       required this.name,
       this.tagline,

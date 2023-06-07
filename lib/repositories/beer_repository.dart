@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:crossplatformbeers/exceptions/custom_exceptions.dart';
 import 'package:crossplatformbeers/models/beer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
 
 const kApiBaseUrl = 'https://api.punkapi.com/v2';
 const kBeerResource = 'beers';
@@ -12,7 +12,7 @@ const kBeerResource = 'beers';
 class BeersRepository {
   final http.Client client;
 
-  BeersRepository({required this.client});
+  const BeersRepository({required this.client});
 
   Future<List<Beer>> getBeers({
     int pageNumber = 1,
@@ -32,9 +32,11 @@ class BeersRepository {
       // something
       return parsed.map<Beer>((json) => Beer.fromJson(json)).toList();
     } catch (e, stacktrace) {
-      print(e);
-      print(stacktrace);
-      throw e;
+      if (kDebugMode) {
+        print(e);
+        print(stacktrace);
+      }
+      rethrow;
     }
   }
 }

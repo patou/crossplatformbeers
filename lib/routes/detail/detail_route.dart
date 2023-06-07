@@ -10,7 +10,7 @@ class DetailRoute extends StatelessWidget {
   static const routeName = '/detail';
   final Beer beer;
 
-  DetailRoute({required this.beer});
+  const DetailRoute({super.key, required this.beer});
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class DetailRoute extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.primaryColorLight,
         borderRadius:
-            BorderRadiusDirectional.vertical(bottom: Radius.circular(12)),
+            const BorderRadiusDirectional.vertical(bottom: Radius.circular(12)),
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: theme.shadowColor.withOpacity(0.4),
@@ -122,7 +122,7 @@ class DetailRoute extends StatelessWidget {
             flex: 2,
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -135,7 +135,7 @@ class DetailRoute extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
@@ -230,7 +230,7 @@ class DetailRoute extends StatelessWidget {
     bool isLarge = contrains.maxWidth > 650;
 
     return Padding(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 10,
       ),
@@ -256,7 +256,7 @@ class DetailRoute extends StatelessWidget {
                       ? CrossAxisAlignment.start
                       : CrossAxisAlignment.stretch,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 300,
                       child: Column(
                         children: [
@@ -279,7 +279,7 @@ class DetailRoute extends StatelessWidget {
 
                     // Food pairing
 
-                    Container(
+                    SizedBox(
                       width: 300,
                       child: Column(
                         children: [
@@ -291,7 +291,7 @@ class DetailRoute extends StatelessWidget {
                   ]),
 
               // Brewer's tips
-              buildHeader(context, "BREWER\'S TIPS"),
+              buildHeader(context, "BREWER'S TIPS"),
               buildSimpleText(context, beer.brewersTips, false),
             ],
           ),
@@ -303,7 +303,7 @@ class DetailRoute extends StatelessWidget {
   Widget buildHeader(BuildContext context, String title) {
     return Container(
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.only(top: 16, bottom: 8),
+      padding: const EdgeInsets.only(top: 16, bottom: 8),
       child: Text(
         title,
         style: Theme.of(context).primaryTextTheme.headlineSmall,
@@ -319,7 +319,7 @@ class DetailRoute extends StatelessWidget {
             ? Theme.of(context).primaryColorLight
             : Theme.of(context).colorScheme.background,
       ),
-      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       child: Text(
         message ?? '',
         style: Theme.of(context).primaryTextTheme.bodyMedium,
@@ -330,7 +330,7 @@ class DetailRoute extends StatelessWidget {
   Widget buildValue(
       BuildContext context, String title, String? message, bool even) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       decoration: BoxDecoration(
         color: even
             ? Theme.of(context).primaryColorLight
@@ -363,7 +363,7 @@ class DetailRoute extends StatelessWidget {
 class ImageDialog extends StatelessWidget {
   final String imageURL;
 
-  ImageDialog(this.imageURL);
+  const ImageDialog(this.imageURL, {super.key});
 
   @override
   Widget build(BuildContext context) {

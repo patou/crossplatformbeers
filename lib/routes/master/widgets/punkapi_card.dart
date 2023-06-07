@@ -36,7 +36,7 @@ class PunkApiCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
+            SizedBox(
               width: 100,
               child: Hero(
                 tag: beer.id,

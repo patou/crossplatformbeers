@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
+  const Home({super.key});
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text("Selectionez une bière"),
+          title: const Text("Selectionez une bière"),
           backgroundColor: theme.primaryColor,
           centerTitle: true,
         ),

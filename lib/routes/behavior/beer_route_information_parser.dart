@@ -9,7 +9,7 @@ class BeerRouteInformationParser extends RouteInformationParser<BeerRoutePath> {
     final uri = Uri.parse(routeInformation.location ?? '/');
 
     // Handle '/'
-    if (uri.pathSegments.length == 0) {
+    if (uri.pathSegments.isEmpty) {
       return BeerRoutePath.home();
     }
 
@@ -27,16 +27,16 @@ class BeerRouteInformationParser extends RouteInformationParser<BeerRoutePath> {
   }
 
   @override
-  RouteInformation restoreRouteInformation(BeerRoutePath path) {
-    if (path.isUnknown) {
-      return RouteInformation(location: '/404');
+  RouteInformation restoreRouteInformation(BeerRoutePath configuration) {
+    if (configuration.isUnknown) {
+      return const RouteInformation(location: '/404');
     }
-    if (path.isHomePage) {
-      return RouteInformation(location: '/');
+    if (configuration.isHomePage) {
+      return const RouteInformation(location: '/');
     }
-    if (path.isDetailsPage) {
-      return RouteInformation(location: '/beer/${path.id}');
+    if (configuration.isDetailsPage) {
+      return RouteInformation(location: '/beer/${configuration.id}');
     }
-    return RouteInformation(location: '/');
+    return const RouteInformation(location: '/');
   }
 }

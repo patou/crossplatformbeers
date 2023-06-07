@@ -12,36 +12,19 @@ class MasterDetail extends StatefulWidget {
 
   final BeersRepository beersRepository;
 
-  MasterDetail({required this.beersRepository});
+  const MasterDetail({super.key, required this.beersRepository});
 
   @override
-  _MasterDetailState createState() => _MasterDetailState();
+  MasterDetailState createState() => MasterDetailState();
 }
 
-class _MasterDetailState extends State<MasterDetail> {
+class MasterDetailState extends State<MasterDetail> {
   Beer? selectedBeer;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return SplitView(
-      children: [
-        MasterRoute(
-          beersRepository: widget.beersRepository,
-          onTapped: (selectedBeer) {
-            setState(() {
-              this.selectedBeer = selectedBeer;
-            });
-          },
-        ),
-        this.selectedBeer != null ? DetailRoute(beer: selectedBeer!) : Home(),
-      ],
-      /*indicator: SplitIndicator(viewMode: SplitViewMode.Vertical),
-      activeIndicator: SplitIndicator(
-        viewMode: SplitViewMode.Vertical,
-        color: theme.primaryColor,
-        isActive: true,
-      ),*/
       controller: SplitViewController(
         weights: [0.3, 0.7],
         limits: [
@@ -53,6 +36,17 @@ class _MasterDetailState extends State<MasterDetail> {
       gripColor: theme.primaryColor,
       gripSize: 8,
       gripColorActive: theme.secondaryHeaderColor,
+      children: [
+        MasterRoute(
+          beersRepository: widget.beersRepository,
+          onTapped: (selectedBeer) {
+            setState(() {
+              this.selectedBeer = selectedBeer;
+            });
+          },
+        ),
+        selectedBeer != null ? DetailRoute(beer: selectedBeer!) : const Home(),
+      ],
     );
   }
 }

@@ -7,13 +7,15 @@ import 'routes/behavior/beer_route_information_parser.dart';
 import 'routes/behavior/beer_router_delegate.dart';
 
 class CrossPlatformBeersApp extends StatefulWidget {
+  const CrossPlatformBeersApp({super.key});
+
   @override
   State<StatefulWidget> createState() => _CrossPlatformBeersAppState();
 }
 
 class _CrossPlatformBeersAppState extends State<CrossPlatformBeersApp> {
-  BeerRouterDelegate _routerDelegate = BeerRouterDelegate();
-  BeerRouteInformationParser _routeInformationParser =
+  final BeerRouterDelegate _routerDelegate = BeerRouterDelegate();
+  final BeerRouteInformationParser _routeInformationParser =
       BeerRouteInformationParser();
 
   @override

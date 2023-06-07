@@ -13,17 +13,19 @@ import 'beer_router_animation.dart';
 
 class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<BeerRoutePath> {
+  @override
   final GlobalKey<NavigatorState> navigatorKey;
 
   TransitionDelegate<dynamic> transitionDelegate = (kIsWeb
       ? NoAnimationTransitionDelegate()
-      : DefaultTransitionDelegate<dynamic>()) as TransitionDelegate;
+      : const DefaultTransitionDelegate<dynamic>()) as TransitionDelegate;
 
   Beer? _selectedBeer;
   bool show404 = false;
 
   BeerRouterDelegate() : navigatorKey = GlobalKey<NavigatorState>();
 
+  @override
   BeerRoutePath get currentConfiguration {
     if (show404) {
       return BeerRoutePath.unknown();
@@ -45,13 +47,13 @@ class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
 
     if (kIsWeb) {
       return MaterialPage(
-          key: ValueKey(MasterRoute.routeName),
+          key: const ValueKey(MasterRoute.routeName),
           child: MasterRoute(
               beersRepository: beersRepository, onTapped: _handleBeerTapped));
     }
 
     return MaterialPage(
-        key: ValueKey(MasterRoute.routeName),
+        key: const ValueKey(MasterRoute.routeName),
         child: LayoutBuilder(
           builder: (context, constraints) {
             if (constraints.maxWidth > 768) {
@@ -74,10 +76,11 @@ class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
       pages: [
         constraintPages(),
         if (show404)
-          MaterialPage(key: ValueKey('UnknownPage'), child: UnknownRoute())
+          const MaterialPage(
+              key: ValueKey('UnknownPage'), child: UnknownRoute())
         else if (_selectedBeer != null)
           MaterialPage(
-              key: ValueKey(DetailRoute.routeName),
+              key: const ValueKey(DetailRoute.routeName),
               child: DetailRoute(beer: _selectedBeer!))
       ],
       onPopPage: (route, result) {
@@ -96,24 +99,24 @@ class BeerRouterDelegate extends RouterDelegate<BeerRoutePath>
   }
 
   @override
-  Future<void> setNewRoutePath(BeerRoutePath path) async {
-    if (path.isUnknown) {
+  Future<void> setNewRoutePath(BeerRoutePath configuration) async {
+    if (configuration.isUnknown) {
       _selectedBeer = null;
       show404 = true;
       return;
     }
-    if (path.isDetailsPage) {
+    if (configuration.isDetailsPage) {
       // Trivial check, i know....
-      if (path.id! < 0 || path.id! > 80) {
+      if (configuration.id! < 0 || configuration.id! > 80) {
         show404 = true;
         return;
       }
 
-      var beersRepository = new BeersRepository(
+      var beersRepository = BeersRepository(
         client: http.Client(),
       );
       var beers = await beersRepository.getBeers();
-      _selectedBeer = beers.firstWhere((beer) => beer.id == path.id);
+      _selectedBeer = beers.firstWhere((beer) => beer.id == configuration.id);
     } else {
       _selectedBeer = null;
     }

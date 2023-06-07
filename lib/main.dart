@@ -3,5 +3,5 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 
 void main() {
-  runApp(CrossPlatformBeersApp());
+  runApp(const CrossPlatformBeersApp());
 }

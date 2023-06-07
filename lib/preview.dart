@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 
 void main() => runApp(
-  DevicePreview(
-    builder: (context) => CrossPlatformBeersApp(), // Wrap your app
-  ),
-);
+      DevicePreview(
+        builder: (context) => const CrossPlatformBeersApp(), // Wrap your app
+      ),
+    );

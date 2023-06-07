@@ -1,9 +1,10 @@
 class FetchDataException implements Exception {
-  final _message;
+  final String _message;
   final _prefix = 'Error during HTTP call: ';
 
-  FetchDataException([this._message]);
+  FetchDataException(this._message);
 
+  @override
   String toString() {
     return "$_prefix$_message";
   }
